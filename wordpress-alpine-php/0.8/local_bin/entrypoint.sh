@@ -67,21 +67,21 @@ setup_phpmyadmin(){
 }    
 
 setup_wordpress(){
+    GIT_REPO=${GIT_REPO:-https://github.com/azureappserviceoss/wordpress-azure}
+    GIT_BRANCH=${GIT_BRANCH:-linux-appservice}
+    echo "INFO: ++++++++++++++++++++++++++++++++++++++++++++++++++:"
+    echo "REPO: "$GIT_REPO
+    echo "BRANCH: "$GIT_BRANCH
+    echo "INFO: ++++++++++++++++++++++++++++++++++++++++++++++++++:"
+
 	if ! [ -e wp-includes/version.php ]; then
-        echo "INFO: There in no wordpress, going to GIT pull...:"
+        echo "INFO: There in no wordpress, going to GIT clone ...:"
         while [ -d $WORDPRESS_HOME ]
         do
             mkdir -p /home/bak
             mv $WORDPRESS_HOME /home/bak/wordpress_bak$(date +%s)            
         done
-        GIT_REPO=${GIT_REPO:-https://github.com/azureappserviceoss/wordpress-azure}
-	    GIT_BRANCH=${GIT_BRANCH:-linux-appservice}
-	    echo "INFO: ++++++++++++++++++++++++++++++++++++++++++++++++++:"
-	    echo "REPO: "$GIT_REPO
-	    echo "BRANCH: "$GIT_BRANCH
-	    echo "INFO: ++++++++++++++++++++++++++++++++++++++++++++++++++:"
-    
-	    echo "INFO: Clone from "$GIT_REPO		
+  
         git clone $GIT_REPO $WORDPRESS_HOME	&& cd $WORDPRESS_HOME
 	    if [ "$GIT_BRANCH" != "master" ];then
 		    echo "INFO: Checkout to "$GIT_BRANCH
@@ -99,7 +99,9 @@ setup_wordpress(){
             fi        
         fi        		        
     else
-        echo "INFO: There is one wordpress exist, no need to GIT pull again."
+        echo "INFO: Wordpress exists, pulling changes."
+        cd $WORDPRESS_HOME
+        git pull
     fi
 	
 	# Although in AZURE, we still need below chown cmd.
@@ -148,12 +150,7 @@ if [ "${DATABASE_TYPE}" == "local" ]; then
 	mysql -u root -e "GRANT ALL ON \`$DATABASE_NAME\`.* TO \`$DATABASE_USERNAME\`@\`$DATABASE_HOST\` IDENTIFIED BY '$DATABASE_PASSWORD'; FLUSH PRIVILEGES;"        
 fi
 
-# That wp-config.php doesn't exist means WordPress is not installed/configured yet.
-if [ ! -e "$WORDPRESS_HOME/wp-config.php" ]; then
-	echo "INFO: $WORDPRESS_HOME/wp-config.php not found."    
-	echo "Installing WordPress for the first time ..." 
-	setup_wordpress
-fi
+setup_wordpress
 
 chmod 777 $WORDPRESS_SOURCE/wp-config.php
 if [ ! $AZURE_DETECTED ]; then 
