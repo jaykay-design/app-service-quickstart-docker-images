@@ -7,15 +7,8 @@ This docker image currently contains the following components:
 1. WordPress
 2. Nginx (1.15.8)
 3. PHP (7.3.4) 
-4. MariaDB ( 10.1.38/if using Local Database )
-5. Phpmyadmin ( 4.8.4/if using Local Database )
 
-## How to configure to use Azure Database for MySQL with web app 
-1. Create a Web App for Containers
-2. Browse your site
-3. Complete WordPress install and Enter the Credentials for Azure database for MySQL 
-
-## How to configure GIT Repo and Branch
+## Setup
 1. Create a Web App for Containers 
 2. Add new App Settings
 
@@ -24,35 +17,13 @@ Name | Default Value
 GIT_REPO | https://github.com/azureappserviceoss/wordpress-azure
 GIT_BRANCH | linux_appservice
 
+3. Update App Setting ```WEBSITES_ENABLE_APP_SERVICE_STORAGE``` = true so uploaded custom content is persisted
 4. Browse your site
 
 >Note: GIT directory: /home/site/wwwroot.
 >
->Note: When you deploy it first time, Sometimes need to check wp-config.php. RM it and re-config DB information is necessary.
->
 >Note: Before restart web app, need to store your changes by "git push", it will be pulled again after restart.
 >
-
-## How to configure to use Local Database with web app 
-1. Create a Web App for Containers 
-2. Update App Setting ```WEBSITES_ENABLE_APP_SERVICE_STORAGE``` = true (If you like to keep you DB after restart.)
-3. Add new App Settings 
-
-Name | Default Value
----- | -------------
-DATABASE_TYPE | local
-DATABASE_USERNAME | wordpress
-DATABASE_PASSWORD | some-string
->Note: We create a database "azurelocaldb" when using local mysql . Hence use this name when setting up the app
->
->Note: Phpmyadmin site is deployed when using local mysql. Please go to 
-http://[website]/phpmyadmin, and login with DATABASE_USERNAME and DATABASE_PASSWORD.
->
-4. Browse your site 
-5. Complete WordPress install
-
->Note: Do not use the app setting DATABASE_TYPE=local if using Azure database for MySQL
-
 
 ## How to turn on Xdebug
 1. By default Xdebug is turned off as turning it on impacts performance.
