@@ -19,13 +19,11 @@ cd $WORDPRESS_HOME
 
 if ! [ -e wp-config.php ]; then
     echo "INFO: There in no wordpress, going to GIT clone ...:"
-    git clone $GIT_REPO $WORDPRESS_HOME
-
-    if [ "$GIT_BRANCH" != "master" ];then
-        echo "INFO: Checkout to "$GIT_BRANCH
-        git fetch origin
-        git branch --track $GIT_BRANCH origin/$GIT_BRANCH && git checkout $GIT_BRANCH
-    fi       
+    git init
+    git remote add origin $GIT_REPO
+    git fetch 
+    git checkout $GIT_BRANCH
+    git branch --set-upstream-to=origin/$GIT_BRANCH $GIT_BRANCH
 else
     echo "INFO: Wordpress exists, pulling changes."
     git pull
