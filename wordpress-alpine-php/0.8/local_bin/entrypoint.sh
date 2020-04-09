@@ -15,9 +15,11 @@ echo "REPO: "$GIT_REPO
 echo "BRANCH: "$GIT_BRANCH
 echo "INFO: ++++++++++++++++++++++++++++++++++++++++++++++++++:"
 
-if ! [ -e wp-includes/version.php ]; then
+cd $WORDPRESS_HOME
+
+if ! [ -e wp-config.php ]; then
     echo "INFO: There in no wordpress, going to GIT clone ...:"
-    git clone $GIT_REPO $WORDPRESS_HOME	&& cd $WORDPRESS_HOME
+    git clone $GIT_REPO $WORDPRESS_HOME
 
     if [ "$GIT_BRANCH" != "master" ];then
         echo "INFO: Checkout to "$GIT_BRANCH
@@ -26,7 +28,6 @@ if ! [ -e wp-includes/version.php ]; then
     fi       
 else
     echo "INFO: Wordpress exists, pulling changes."
-    cd $WORDPRESS_HOME
     git pull
 fi
 
