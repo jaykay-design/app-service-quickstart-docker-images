@@ -18,7 +18,7 @@ echo "INFO: ++++++++++++++++++++++++++++++++++++++++++++++++++:"
 cd $WORDPRESS_HOME
 
 if ! [ -e wp-config.php ]; then
-    rm -rf *
+    rm index.php
     echo "INFO: There in no wordpress, going to GIT clone ...:"
     git init
     git remote add origin $GIT_REPO
