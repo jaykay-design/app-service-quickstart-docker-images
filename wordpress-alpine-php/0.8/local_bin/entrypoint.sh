@@ -15,7 +15,7 @@ cd $WORDPRESS_HOME
 
 if ! [ -e wp-config.php ]; then
     echo "INFO: setting nginx as owner"
-    chown -R nginx:nginx $WORDPRESS_HOME    
+    chown nginx:nginx $WORDPRESS_HOME    
 
     rm index.php
     echo "INFO: There in no wordpress, going to GIT clone ...:"
