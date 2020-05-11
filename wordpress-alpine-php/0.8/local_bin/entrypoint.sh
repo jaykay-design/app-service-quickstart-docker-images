@@ -4,20 +4,19 @@
 
 php -v
 
-AZURE_DETECTED=$WEBSITES_ENABLE_APP_SERVICE_STORAGE # if defined, assume the container is running on Azure
-
 echo "Setup openrc ..." && openrc && touch /run/openrc/softlevel
 
 GIT_REPO=${GIT_REPO:-https://github.com/azureappserviceoss/wordpress-azure}
 GIT_BRANCH=${GIT_BRANCH:-linux-appservice}
-echo "INFO: ++++++++++++++++++++++++++++++++++++++++++++++++++:"
 echo "REPO: "$GIT_REPO
 echo "BRANCH: "$GIT_BRANCH
-echo "INFO: ++++++++++++++++++++++++++++++++++++++++++++++++++:"
 
 cd $WORDPRESS_HOME
 
 if ! [ -e wp-config.php ]; then
+    echo "INFO: setting nginx as owner"
+    chown -R nginx:nginx $WORDPRESS_HOME    
+
     rm index.php
     echo "INFO: There in no wordpress, going to GIT clone ...:"
     git init
@@ -29,11 +28,6 @@ else
     echo "INFO: Wordpress exists, pulling changes."
     git pull
 fi
-
-echo "INFO: setting owner"
-# Although in AZURE, we still need below chown cmd.
-chown -R nginx:nginx $WORDPRESS_HOME    
-chmod 777 $WORDPRESS_SOURCE/wp-config.php
 
 echo "INFO: Starting Redis ..."
 redis-server &
