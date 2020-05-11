@@ -35,8 +35,10 @@ echo "INFO: setting owner"
 chown -R nginx:nginx $WORDPRESS_HOME    
 chmod 777 $WORDPRESS_SOURCE/wp-config.php
 
-echo "Starting Redis ..."
+echo "INFO: Starting Redis ..."
 redis-server &
+
+echo "INFO: Checking directories ..."
 
 test ! -d "$SUPERVISOR_LOG_DIR" && echo "INFO: $SUPERVISOR_LOG_DIR not found. creating ..." && mkdir -p "$SUPERVISOR_LOG_DIR"
 test ! -d "$NGINX_LOG_DIR" && echo "INFO: Log folder for nginx/php not found. creating..." && mkdir -p "$NGINX_LOG_DIR"
