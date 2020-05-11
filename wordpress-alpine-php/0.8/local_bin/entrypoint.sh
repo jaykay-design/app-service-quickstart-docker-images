@@ -30,28 +30,13 @@ else
     git pull
 fi
 
+echo "INFO: setting owner"
 # Although in AZURE, we still need below chown cmd.
 chown -R nginx:nginx $WORDPRESS_HOME    
-
 chmod 777 $WORDPRESS_SOURCE/wp-config.php
-if [ ! $AZURE_DETECTED ]; then 
-    echo "INFO: NOT in Azure, chown for wp-config.php"
-    chown -R nginx:nginx $WORDPRESS_SOURCE/wp-config.php
-fi
-
-# setup server root
-if [ ! $AZURE_DETECTED ]; then 
-    echo "INFO: NOT in Azure, chown for "$WORDPRESS_HOME 
-    chown -R nginx:nginx $WORDPRESS_HOME
-fi
 
 echo "Starting Redis ..."
 redis-server &
-
-if [ ! $AZURE_DETECTED ]; then	
-    echo "NOT in AZURE, Start crond, log rotate..."	
-    crond	
-fi 
 
 test ! -d "$SUPERVISOR_LOG_DIR" && echo "INFO: $SUPERVISOR_LOG_DIR not found. creating ..." && mkdir -p "$SUPERVISOR_LOG_DIR"
 test ! -d "$NGINX_LOG_DIR" && echo "INFO: Log folder for nginx/php not found. creating..." && mkdir -p "$NGINX_LOG_DIR"
