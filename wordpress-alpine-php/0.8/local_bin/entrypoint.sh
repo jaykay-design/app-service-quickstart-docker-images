@@ -14,8 +14,8 @@ echo "BRANCH: "$GIT_BRANCH
 cd $WORDPRESS_HOME
 
 if ! [ -e wp-config.php ]; then
-    echo "INFO: setting nginx as owner"
-    chown nginx:nginx $WORDPRESS_HOME    
+ #   echo "INFO: setting nginx as owner"
+ #   chown nginx:nginx $WORDPRESS_HOME    
 
     rm index.php
     echo "INFO: There in no wordpress, going to GIT clone ...:"
