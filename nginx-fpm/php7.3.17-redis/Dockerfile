@@ -1,5 +1,5 @@
 
-FROM jaykay-design/nginx-fpm:php7.3.17
+FROM jaykaydesign/nginx-fpm:php7.3.17
 MAINTAINER Azure App Service Container Images <appsvc-images@microsoft.com>
 # ========
 # ENV vars
