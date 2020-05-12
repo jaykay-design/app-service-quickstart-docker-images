@@ -1,7 +1,7 @@
 #
 # Dockerfile for WordPress
 #
-FROM appsvcorg/nginx-fpm:php7.3.4-redis
+FROM jaykay-design/nginx-fpm:php7.3.17-redis
 LABEL MAINTAINER John Caprez <jay@jaykay-design.com>
 # ========
 # ENV vars
