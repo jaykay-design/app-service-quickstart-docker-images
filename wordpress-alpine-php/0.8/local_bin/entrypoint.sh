@@ -21,7 +21,7 @@ if ! [ -e wp-config.php ]; then
 
     echo "INFO: setting nginx as owner"
     cd ..
-    find -type d -not -path *.git* -not -path */wwwroot/documents* -not -path */wwwroot/wp-content/uploads* -print | xargs -n 10 -P 10 chown nginx:nginx
+    find -type d -not -path *.git* -not -path */wwwroot/documents* -not -path */wwwroot/wp-content/uploads* -print0 | xargs -0 -n 10 -P 10 chown nginx:nginx
 
 else
     echo "INFO: Wordpress exists, pulling changes."
