@@ -8,15 +8,10 @@ echo "Setup openrc ..." && openrc && touch /run/openrc/softlevel
 
 GIT_REPO=${GIT_REPO:-https://github.com/azureappserviceoss/wordpress-azure}
 GIT_BRANCH=${GIT_BRANCH:-linux-appservice}
-echo "REPO: "$GIT_REPO
-echo "BRANCH: "$GIT_BRANCH
 
 cd $WORDPRESS_HOME
 
 if ! [ -e wp-config.php ]; then
-    echo "INFO: setting nginx as owner"
-    chown -R nginx:nginx $WORDPRESS_HOME
-
     echo "INFO: There in no wordpress, going to GIT clone ...:"
     git init
     git remote add origin $GIT_REPO
@@ -24,6 +19,7 @@ if ! [ -e wp-config.php ]; then
     git checkout $GIT_BRANCH
     git branch --set-upstream-to=origin/$GIT_BRANCH $GIT_BRANCH
 
+    echo "INFO: setting nginx as owner"
     cd ..
     find -type d -not -path *.git* -not -path */wwwroot/documents* -not -path */wwwroot/wp-content/uploads* -print | xargs -n 10 -P 10 chown nginx:nginx
 
