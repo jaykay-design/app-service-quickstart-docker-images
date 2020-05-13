@@ -20,16 +20,15 @@ if ! [ -e wp-config.php ]; then
     git fetch 
     git checkout $GIT_BRANCH
     git branch --set-upstream-to=origin/$GIT_BRANCH $GIT_BRANCH
+
+    echo "INFO: setting nginx as owner"
+    chown -R nginx:nginx $WORDPRESS_HOME
 else
     echo "INFO: Wordpress exists, pulling changes."
     git pull
 fi
 
-echo "INFO: setting nginx as owner"
-chown -R nginx:nginx $WORDPRESS_HOME
-
 echo "INFO: Starting Redis ..."
-
 redis-server &
 
 echo "INFO: Checking directories ..."
