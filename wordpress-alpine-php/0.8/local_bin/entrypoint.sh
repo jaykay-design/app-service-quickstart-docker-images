@@ -25,7 +25,7 @@ if ! [ -e wp-config.php ]; then
     git branch --set-upstream-to=origin/$GIT_BRANCH $GIT_BRANCH
 
     cd ..
-    find -type d -not -path *.git* -not -path */wwwroot/documents* -not -path */wwwroot/wp-content/uploads* -print | xargs -n 1 -P 100 chown nginx:nginx
+    find -type d -not -path *.git* -not -path */wwwroot/documents* -not -path */wwwroot/wp-content/uploads* -print | xargs -n 10 -P 10 chown nginx:nginx
 
 else
     echo "INFO: Wordpress exists, pulling changes."
