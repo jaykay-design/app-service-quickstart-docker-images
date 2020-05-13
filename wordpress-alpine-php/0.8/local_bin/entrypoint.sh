@@ -14,6 +14,9 @@ echo "BRANCH: "$GIT_BRANCH
 cd $WORDPRESS_HOME
 
 if ! [ -e wp-config.php ]; then
+    echo "INFO: setting nginx as owner"
+    chown -R nginx:nginx $WORDPRESS_HOME
+
     echo "INFO: There in no wordpress, going to GIT clone ...:"
     git init
     git remote add origin $GIT_REPO
@@ -21,11 +24,13 @@ if ! [ -e wp-config.php ]; then
     git checkout $GIT_BRANCH
     git branch --set-upstream-to=origin/$GIT_BRANCH $GIT_BRANCH
 
-    echo "INFO: setting nginx as owner"
-    chown -R nginx:nginx $WORDPRESS_HOME
+    cd ..
+    find -type d -not -path *.git* -not -path */wwwroot/documents* -not -path */wwwroot/wp-content/uploads* -print | xargs -n 1 -P 100 chown nginx:nginx
+
 else
     echo "INFO: Wordpress exists, pulling changes."
     git pull
+    cd ..
 fi
 
 echo "INFO: Starting Redis ..."
