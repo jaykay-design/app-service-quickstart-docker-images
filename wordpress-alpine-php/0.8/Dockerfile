@@ -28,12 +28,12 @@ COPY uploads.ini /usr/local/etc/php/conf.d/
 # nginx
 COPY nginx_conf/. /etc/nginx/conf.d/
 # php WP extensions
-RUN set -ex \
-    && apk update \
-    && apk add --no-cache libmagickwand-dev \
+RUN apk add --update freetype-dev libpng-dev libjpeg-turbo-dev libxml2-dev autoconf g++ imagemagick-dev libtool make \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
-    && docker-php-ext-enable exif \
+    && apk del autoconf g++ libtool make \
+    && rm -rf /tmp/* /var/cache/apk/*RUN set -ex \
+RUN docker-php-ext-enable exif \
 #
 COPY local_bin/. /usr/local/bin/
 RUN chmod -R +x /usr/local/bin
