@@ -30,7 +30,7 @@ COPY nginx_conf/. /etc/nginx/conf.d/
 # php WP extensions
 RUN apk add --update freetype-dev libpng-dev libjpeg-turbo-dev libxml2-dev autoconf g++ imagemagick-dev libtool make \
     && pecl install imagick \
-    && docker-php-ext-enable imagick exif\
+    && docker-php-ext-enable imagick\
     && apk del autoconf g++ libtool make \
     && rm -rf /tmp/* /var/cache/apk/* \
 #
