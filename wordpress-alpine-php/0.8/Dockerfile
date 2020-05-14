@@ -32,7 +32,7 @@ RUN apk add --update freetype-dev libpng-dev libjpeg-turbo-dev libxml2-dev autoc
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && apk del autoconf g++ libtool make \
-    && rm -rf /tmp/* /var/cache/apk/*RUN set -ex \
+    && rm -rf /tmp/* /var/cache/apk/*
 RUN docker-php-ext-enable exif \
 #
 COPY local_bin/. /usr/local/bin/
