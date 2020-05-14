@@ -27,6 +27,13 @@ COPY supervisord.conf /etc/
 COPY uploads.ini /usr/local/etc/php/conf.d/
 # nginx
 COPY nginx_conf/. /etc/nginx/conf.d/
+# php WP extensions
+RUN set -ex \
+    && apk update \
+    && apt-get install -y libmagickwand-dev --no-install-recommends \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && docker-php-ext-enable exif \
 #
 COPY local_bin/. /usr/local/bin/
 RUN chmod -R +x /usr/local/bin
