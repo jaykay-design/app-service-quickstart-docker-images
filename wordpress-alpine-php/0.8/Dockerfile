@@ -30,7 +30,7 @@ COPY nginx_conf/. /etc/nginx/conf.d/
 # php WP extensions
 RUN set -ex \
     && apk update \
-    && apt-get install -y libmagickwand-dev --no-install-recommends \
+    && apk add --no-cache libmagickwand-dev \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && docker-php-ext-enable exif \
