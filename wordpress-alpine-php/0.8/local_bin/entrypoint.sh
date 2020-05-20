@@ -19,9 +19,9 @@ if ! [ -e wp-config.php ]; then
     git checkout $GIT_BRANCH
     git branch --set-upstream-to=origin/$GIT_BRANCH $GIT_BRANCH
 
-    echo "INFO: setting nginx as owner"
+    echo "INFO: setting nobody as owner"
     cd ..
-    find . -not -path */wwwroot/.git* -not -path */wwwroot/documents* -not -path */wwwroot/wp-content/uploads* -print0 | xargs -0 -n 10 -P 10 chown nginx:nginx
+    find . -not -path */wwwroot/.git* -not -path */wwwroot/documents* -not -path */wwwroot/wp-content/uploads* -print0 | xargs -0 -n 10 -P 10 chown nobody:nobody
 
 else
     echo "INFO: Wordpress exists, pulling changes."
@@ -51,7 +51,7 @@ echo "INFO: creating /run/php/php-fpm.sock ..."
 test -e /run/php/php-fpm.sock && rm -f /run/php/php-fpm.sock
 mkdir -p /run/php
 touch /run/php/php-fpm.sock
-chown nginx:nginx /run/php/php-fpm.sock
+chown nobody:nobody /run/php/php-fpm.sock
 chmod 777 /run/php/php-fpm.sock
 
 sed -i "s/SSH_PORT/$SSH_PORT/g" /etc/ssh/sshd_config

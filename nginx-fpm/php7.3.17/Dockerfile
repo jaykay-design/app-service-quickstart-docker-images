@@ -106,8 +106,6 @@ RUN set -ex \
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 		--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
 		--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
-		--user=nginx \
-		--group=nginx \
 		--with-http_ssl_module \
 		--with-http_realip_module \
 		--with-http_addition_module \
@@ -138,8 +136,6 @@ RUN set -ex \
 		--with-http_v2_module \
 		--add-module=/usr/src/ngx_cache_purge-c7345057ad5429617fc0823e92e3fa8043840cef \
 	" \
-	&& addgroup -S nginx \
-	&& adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
 	&& apk add --no-cache --virtual .build-deps \
 		gcc \
 		libc-dev \
